@@ -1,5 +1,7 @@
 package com.mzd.myelasticsearch;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -36,7 +38,7 @@ public class MyElasticsearchApplicationTests {
     @Test
     public void contextLoads() {
         Map<String, Object> criteria = new HashMap<>();
-        criteria.put("name", "时间");
+        criteria.put("name", "测试");
 
         //search request
         SearchRequest searchRequest = new SearchRequest("test");
@@ -75,8 +77,9 @@ public class MyElasticsearchApplicationTests {
             searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
             //search hits
             SearchHits hits = searchResponse.getHits();
-            long totalHits = hits.getTotalHits();
-            System.out.println("查询出来个数：" + totalHits);
+            System.out.println(JSON.toJSONString(hits));
+            TotalHits totalHits = hits.getTotalHits();
+            System.out.println("查询出来个数：" + totalHits.value);
 
             SearchHit[] searchHits = hits.getHits();
             for (SearchHit hit : searchHits) {
